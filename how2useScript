@@ -1,0 +1,30 @@
+1.siesta:
+编译好的计算软件。
+运行方式：./siesta < {input} > {output} 或 ./siesta < {input} |tee {output}
+注意：后者会将输出也打印在屏幕上
+
+
+2.extract:
+抽取relax.out收敛结构的坐标信息，提供给scf.fdf进行自恰场优化计算。放到目标目录下，保证目标目录下的结构已优化，输出文件为relax.out，如果收敛（relaxed），则会生成scf.xyz文件。
+运行方式：./extract
+注意：生成的scf.xyz文件最好打开看一下，有没有多余的字符。若有，删去。
+
+
+3.relaxstruct:
+perl脚本，将最终优化的结构结果信息提取出来生成可视化的cif文件。
+运行方式：perl relaxstruct Siesta.STRUCT_OUT model.cif
+其中Siesta.STRUCT_OUT为计算后输出的结构信息，model.cif为用midis生成的cif结构文件。
+注意：生成后可以直接用各种分子建模软件查看，ms查看的话会缺少键，可以点ms中的bonds-calculate生成键。
+
+
+4.pdosxml
+将输出的Siesta.PDOS文件转换为所需态密度的数据文件。
+运行方式：./pdosxml Siesta.PDOS > output
+注意：符号都不要弄错，pdosxml指令就这一条，没有多的，连-h都没有。此外，数据中的能级并未以费米能级为零点。
+
+
+5.shift2fermi
+配合4的pdosxml使用。为自写的perl脚本。将能级移至费米零点。
+运行方式：perl shift2fermi input Efermi
+其中input为输入的态密度数据文件，Efermi为费米能级的值，可通过grep "Fermi" scf.out获得。
+注意：输入文件和费米能级的能量在指令中需要手动输入。

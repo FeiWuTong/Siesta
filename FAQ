@@ -1,0 +1,12 @@
+Q1：如何画能带？
+A1：在/Siesta/Util/Bands的文件夹里运行make，得到编译好的脚本gnubands，
+	然后通过在目标文件夹里ln -s 该脚本路径，得到软连接文件（即快捷方式）。
+	cd进入目标文件夹。
+	./gnubands -h可以查看相关的选项。
+	Example：./gnubands -G -F -e -5 -E 5 < Siesta.bands 1> bands.dat 2> bands.plot
+		其中-5和5为上下限， -F以费米能级为中心零点
+		Siesta.bands为输入的能带文件
+		1> 和 2> 后接的文件名不要变，否则需要改bands.plot文件内的内容。
+		此时bands.plot里有画bands.dat数据的命令。
+	此时键入命令gnuplot启动gnuplot（没安装可以apt-get），进入gnuplot的命令行界面
+	输入命令 load 'bands.plot'即可。

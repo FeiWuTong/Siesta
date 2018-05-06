@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+my $struct = $ARGV[0];
+my $reference = $ARGV[1];
+my $out = 'STRUCT_OUT.cif';
+
+open my $f_in, '<', $struct
+    or die "Can't open '$struct': $!";
+open my $f_ref, '<', $reference
+    or die "Can't open '$reference': $!";
+open my $f_out, '>', $out
+    or die "Can't write '$out': $!";
+
+my @relax = ();
+while (<$f_in>) {
+    chomp;
+    my @nums = split;
+    if(scalar @nums == 5) {
+        my @needed = @nums[2,3,4];
+        push @relax, @needed;
+    }
+}
+
+my $i = 0;
+while (<$f_ref>) {
+    chomp;
+    #print "$relax[$i], $relax[$i+1]\n";
+    s/(\s+\w+\d+\s+[\d\.]+\s+)[\d\.]+(\s+)[\d\.]+(\s+)[\d\.]+/$1$relax[$i++]$2$relax[$i++]$3$relax[$i++]/;
+    print $f_out "$_\n";
+}

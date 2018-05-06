@@ -1,0 +1,1 @@
+sed -n '/Relaxed/,/siesta/p' relax.out | sed '1d' | sed 'N;$!P;$!D;$d' | awk '{print $1, $2, $3, $4}' > scf.xyz

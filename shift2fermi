@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+
+my $old = $ARGV[0];
+my $shiftE = $ARGV[1];
+my $new = $old."_new";
+
+open my $f_in, '<', $old
+    or die "Can't open '$old': $!";
+open my $f_out, '>', $new
+    or die "Can't write '$new': $!";
+
+my $entered;
+while (<$f_in>) {
+    chomp;
+    my @nums = split;
+    $nums[0] -= $shiftE;
+    $entered .= join "  ", @nums;
+    $entered .= "\n";
+}
+print $f_out $entered;
